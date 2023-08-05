@@ -12,11 +12,21 @@
     
     <!-- <node name="joint_state_publisher_gui" pkg="joint_state_publisher_gui" type="joint_state_publisher_gui" output="screen"/> -->
 
-    <node name="rviz" pkg="rviz" type="rviz" output="screen"/>
+    <!-- <node name="rviz" pkg="rviz" type="rviz" output="screen"/> -->
     <!-- <include file="$(find waymaster_v1)/launch/gazebo.launch">
     </include>
     
     <node name="gazebo_ros" pkg="gazebo_ros" type="spawn_model" args="-file /home/johanth/waymaster_v1/src/waymaster_v1/description/robotv1.urdf -urdf -x 0 -y 0 -z 0 -model waymaster" output="screen"/> -->
-    
+    <include file="$(find freenect_launch)/launch/freenect.launch">
+        <param name="depth_registration" type="string" value="true"/>
+    </include>
+    <node name="depthimage_to_laserscan" pkg="depthimage_to_laserscan" type="depthimage_to_laserscan" args="image:=/camera/depth_registered/image range_max:=0.5"/>
+    <include file="$(find slam_toolbox)/online_async.launch">
+        <param name="params_file" type="string" value="/src/waymaster_v1/include/mapper_params_online_async.yaml"/>
+        <param name="use_sim_time" type="string" value="true"/>
+        
+    </include>
     <node name="ros_serial" pkg="rosserial_python" type="serial_node.py" args="port:=/dev/ttyUSB0" />
+    <node name="diffdrive" pkg="differential_drive" type="diff_tf.py"/>
+    
 </launch>
