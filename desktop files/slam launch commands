@@ -1,0 +1,6 @@
+roslaunch waymaster_v1 robot.launch
+roslaunch freenect_launch freenect.launch depth_registration:=true
+rosrun depthimage_to_laserscan depthimage_to_laserscan image:=/camera/depth_registered/image
+rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
+roslaunch slam_toolbox online_async.launch params_file:=/src/waymaster_v1/include/mapper_params_online_async.yaml use_sim_time:=true
+rosrun differential_drive diff_tf.py 
