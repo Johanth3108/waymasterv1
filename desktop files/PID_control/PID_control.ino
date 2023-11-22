@@ -1,8 +1,3 @@
-// This alternate version of the code does not require
-// atomic.h. Instead, interrupts() and noInterrupts() 
-// are used. Please use this code if your 
-// platform does not support ATOMIC_BLOCK.
-
 #define ENCA 20 // YELLOW
 #define ENCB 21 // WHITE
 
